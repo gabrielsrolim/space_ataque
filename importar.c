@@ -479,6 +479,56 @@ void NormalTriangulo(Point3D p1, Point3D p2, Point3D p3, Point3D *n){
     n->z /= len;
 }
 
+int InitEsferas(tEsfera *esfera){
+    int i=0,num_esfera=0;
+    
+    
+    //Esferas devastadoras linha 1
+   for(i=0;i<QTD_LINHA_ESFERA;i++,num_esfera++){
+     esfera[num_esfera].x = LINHA_CIMA_ESFERA-((DIST_X_ESFERA*i)+1);
+     esfera[num_esfera].y = LINHA_CIMA_ESFERA;
+     esfera[num_esfera].z = 0;
+     esfera[num_esfera].status  = DISPONIVEL;
+   }
+   
+   //Esferas devastadoras linha 2
+   for(i=0;i<QTD_LINHA_ESFERA;i++,num_esfera++){
+     esfera[num_esfera].x = LINHA_CIMA_ESFERA-((DIST_X_ESFERA*i)+1);
+     esfera[num_esfera].y = LINHA_CIMA_ESFERA-(DIST_Y_ESFERA);
+     esfera[num_esfera].z = 0;
+     esfera[num_esfera].status  = DISPONIVEL;
+
+   }
+
+    //Esferas devastadoras linha 3
+   for(i=0;i<QTD_LINHA_ESFERA;i++,num_esfera++){
+     esfera[num_esfera].x = LINHA_CIMA_ESFERA-((DIST_X_ESFERA*i)+1);
+     esfera[num_esfera].y = LINHA_CIMA_ESFERA-(DIST_Y_ESFERA*2);
+     esfera[num_esfera].z = 0;
+     esfera[num_esfera].status  = DISPONIVEL;
+   }
+   
+   //Esferas devastadoras linha 4
+   for(i=0;i<QTD_LINHA_ESFERA;i++,num_esfera++){
+     esfera[num_esfera].x = LINHA_CIMA_ESFERA-((DIST_X_ESFERA*i)+1);
+     esfera[num_esfera].y = LINHA_CIMA_ESFERA-(DIST_Y_ESFERA*3);
+     esfera[num_esfera].z = 0;
+     esfera[num_esfera].status  = DISPONIVEL;
+   }
+
+
+   //Esferas devastadoras linha 5
+   for(i=0;i<QTD_LINHA_ESFERA;i++,num_esfera++){
+     esfera[num_esfera].x = LINHA_CIMA_ESFERA-((DIST_X_ESFERA*i)+1);
+     esfera[num_esfera].y =LINHA_CIMA_ESFERA-(DIST_Y_ESFERA*4);
+     esfera[num_esfera].z = 0;
+     esfera[num_esfera].status  = DISPONIVEL;
+
+   }
+
+
+}
+
 
 
 

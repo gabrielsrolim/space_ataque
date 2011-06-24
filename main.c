@@ -5,10 +5,12 @@
 #include "importar.h"
 
 
+
 tRegFaces faces;
 tRegPoints points;
-int rx = 0,ry=0,rz=0,p=0,width_window=500,height_window=500;
-double z=0.5;
+tEsfera esfera[QTD_ESFERAS+1];
+int rx = 0,ry=0,rz=0,p=0,width_window=500,height_window=500,num_esfera=0,qtd_atual_linha1=13,qtd_atual_linha2=13,qtd_atual_linha3=13,qtd_atual_linha4=13,qtd_atual_linha5=13;
+double z=0.5,cor_esferas=0.0;
 double trans_ini_m=-19,escala_missel=0.2;//padrão escala 0.2m translação inicial: -12(eixo y)
 char aviao,missel;
 int i;
@@ -122,8 +124,7 @@ void Desenha(){
         glVertex3d(0,0,0);
         glVertex3d(0,0,40);  
     glEnd();
-
-
+   
    //missel center
    glPushMatrix();
    glColor3d(1, 0, 0);
@@ -189,6 +190,8 @@ void Desenha(){
 
    glCallList(missel);
    glPopMatrix();
+  
+   Esferas();
 
 
     //Aviao
@@ -280,6 +283,76 @@ void keyboard(unsigned char k,int x,int y){
     }
 }
 
+void Esferas(){
+
+   if(num_esfera!=0 || cor_esferas!=0){
+     num_esfera=0;
+     cor_esferas=0;
+   }
+
+   //Esferas devastadoras linha 1
+   for(i=0;i<QTD_LINHA_ESFERA;i++,num_esfera++){
+     glPushMatrix();
+     cor_esferas+=0.001;
+     glColor3d(0, 0, cor_esferas+0.1);
+     if(esfera[num_esfera].status  == DISPONIVEL){
+        glTranslated(esfera[num_esfera].x,esfera[num_esfera].y,esfera[num_esfera].z);
+        glutSolidSphere(1,16,16);
+     }
+     glPopMatrix();
+   }
+
+   //Esferas devastadoras linha 2
+   for(i=0;i<QTD_LINHA_ESFERA;i++,num_esfera++){
+     glPushMatrix();
+     cor_esferas+=0.001;
+     glColor3d(cor_esferas, 0, 0);
+     if(esfera[num_esfera].status  == DISPONIVEL){
+        glTranslated(esfera[num_esfera].x,esfera[num_esfera].y,esfera[num_esfera].z);
+        glutSolidSphere(1,16,16);
+     }
+     glPopMatrix();
+   }
+
+   //Esferas devastadoras linha 3
+   for(i=0;i<QTD_LINHA_ESFERA;i++,num_esfera++){
+     glPushMatrix();
+     cor_esferas+=0.001;
+     glColor3d(cor_esferas, cor_esferas, 0);
+     if(esfera[num_esfera].status  == DISPONIVEL){
+        glTranslated(esfera[num_esfera].x,esfera[num_esfera].y,esfera[num_esfera].z);
+        glutSolidSphere(1,16,16);
+     }
+     glPopMatrix();
+   }
+
+   //Esferas devastadoras linha 4
+   for(i=0;i<QTD_LINHA_ESFERA;i++,num_esfera++){
+     glPushMatrix();
+     cor_esferas+=0.001;
+     glColor3d(cor_esferas, 0, cor_esferas);
+     if(esfera[num_esfera].status  == DISPONIVEL){
+        glTranslated(esfera[num_esfera].x,esfera[num_esfera].y,esfera[num_esfera].z);
+        glutSolidSphere(1,16,16);
+     }
+     glPopMatrix();
+   }
+
+   //Esferas devastadoras linha 5
+   for(i=0;i<QTD_LINHA_ESFERA;i++,num_esfera++){
+     glPushMatrix();
+     cor_esferas+=0.001;
+     glColor3d(0, cor_esferas, cor_esferas);
+     if(esfera[num_esfera].status  == DISPONIVEL){
+        glTranslated(esfera[num_esfera].x,esfera[num_esfera].y,esfera[num_esfera].z);
+        glutSolidSphere(1,16,16);
+     }
+     glPopMatrix();
+   }
+ 
+    
+}
+
 void Inicializa(){
    
    //importarBlenderWrl("nave_pronta3.wrl",&faces,&points);
@@ -303,6 +376,7 @@ void Inicializa(){
    DestroiRegPoints(&points);
 
    iluminacao();
+   InitEsferas(esfera);
  
    
    

@@ -1,10 +1,25 @@
 #ifndef _IMPORTAR_H_
   #define _IMPORTAR_H_
 
+
+#define LINHA_CIMA_ESFERA 18.5
+#define QTD_LINHA_ESFERA 13
+#define DISPONIVEL 1
+#define DESTRUIDO 0
+#define DIST_X_ESFERA 3
+#define DIST_Y_ESFERA 3
+#define QTD_ESFERAS  67
+
 //calcular normais
 typedef struct p3d{
     double x, y, z;
 }Point3D;
+
+//tipo esfera: util para saber se houve colisao, alterando status.
+typedef struct esfera{
+        double x , y ,z ;
+        int status;
+        }tEsfera;
 
 typedef struct{
     float x;
@@ -58,6 +73,8 @@ extern void PegarCoordIndex(FILE *file,char *mystring,tRegFaces *faces);
 extern void importarBlenderWrl(char *nomeArq,tRegFaces *faces,tRegPoints *points);
 extern void Imprimir(tRegFaces faces,tRegPoints points);
 extern void NormalTriangulo(Point3D p1, Point3D p2, Point3D p3, Point3D *n);
+extern int InitEsferas(tEsfera *esfera);
+extern void Esferas();
 
 
 #include "importar.c"
