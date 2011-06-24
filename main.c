@@ -9,7 +9,7 @@ tPosicao missel_esfera,missel_nave,nave_espacial;
 tRegFaces faces;
 tRegPoints points;
 tEsfera esfera[QTD_ESFERAS+1];
-int p=0,width_window=800,height_window=650,num_esfera=0;
+int width_window=800,height_window=650,num_esfera=0;
 int time=30,dispara=0,dispara_missel_esfera=0,missel_esfera_habilita=0,missel_selecionado;
 double rx = 0.0,ry=0.0,rz=0.0,trans_missel_nave=0.0,trans_missel_esfera=0.0,vez=0.0;
 double z=0.5,cor_esferas=0.0,mov_esferas=0.0;
@@ -96,12 +96,8 @@ void Desenha(){
     
    glMatrixMode(GL_PROJECTION);
    glLoadIdentity();
-   if(p==0){
     glOrtho(-20.0, 20.0, -20.0, 20.0, 1, 60.0);
-   }else{
-    gluPerspective(-200, 0.5, 1, 300);
-   //glFrustum(-2, 2, -2, 2,0.5, 30);
-   }
+   
    //glMatrixMode(GL_VIEWPORT);
    //glViewport(0, 0, 500, 250);
    glMatrixMode(GL_MODELVIEW);
@@ -202,11 +198,6 @@ void keyboard(unsigned char k,int x,int y){
         case'R':
         case'r':
             rz+=VELOCIDADE_DELC_AVIAO;
-            glutPostRedisplay();
-        break;
-        case'Q':
-        case'q':
-            p = p==0 ? 1 : 0;
             glutPostRedisplay();
         break;
         case'Z':

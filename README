@@ -10,3 +10,6 @@ Arquivos Necessarios:
 "nave_prota3.wrl"
 
 Comandos:
+a - move a nave para  a esquerda
+d - move a nave para a direita
+Spaço - atira o missel.
