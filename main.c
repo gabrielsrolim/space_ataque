@@ -20,7 +20,7 @@ void iluminacao(void){
 	GLfloat luzDifusa[4]={0.8,0.8,0.8,1.0};	   // "cor" 
 	GLfloat luzEspecular[4]={1.0, 1.0, 1.0, 1.0};// "brilho" 
 	GLfloat posicaoLuz[4]={0.0, -10.0, 20.0, 1.0};
-    GLfloat posicaoLuz2[4]={-0.0, 0.0, 10.0, 1};
+    GLfloat posicaoLuz2[4]={-0.0, 10.0, 20.0, 1};
 
 	// Capacidade de brilho do material
 	GLfloat especularidade[4]={1.0,1.0,1.0,1.0}; 
@@ -52,10 +52,10 @@ void iluminacao(void){
 	glLightfv(GL_LIGHT0, GL_SPECULAR, luzEspecular );
 	glLightfv(GL_LIGHT0, GL_POSITION, posicaoLuz );
 
-   // glLightfv(GL_LIGHT1, GL_AMBIENT, luzAmbiente); 
-	//glLightfv(GL_LIGHT1, GL_DIFFUSE, luzDifusa );
-	//glLightfv(GL_LIGHT1, GL_SPECULAR, luzEspecular );
-	//glLightfv(GL_LIGHT1, GL_POSITION, posicaoLuz2 );
+    glLightfv(GL_LIGHT1, GL_AMBIENT, luzAmbiente); 
+	glLightfv(GL_LIGHT1, GL_DIFFUSE, luzDifusa );
+	glLightfv(GL_LIGHT1, GL_SPECULAR, luzEspecular );
+	glLightfv(GL_LIGHT1, GL_POSITION, posicaoLuz2 );
 
 	// Habilita a definicao da cor do material a partir da cor corrente
 	glEnable(GL_NORMALIZE);
@@ -94,9 +94,7 @@ void Desenha(){
       
    glEnable(GL_DEPTH_TEST); 
     
-   glTranslated(0, 0, -20);
-   //glRotated(-40,0,1,0);
-   //glRotated(5,1,0,0);   
+   glTranslated(0, 0, -20);  
 
    glPushMatrix(); 
     glBegin(GL_LINES);
@@ -130,7 +128,7 @@ void Desenha(){
    glPushMatrix();
    glColor3d(1, 0, 0);
    glTranslated(0, trans_ini_m+4, 0);
-   glTranslated(ry, rx, 0);
+   glTranslated(rx, ry, 0);
    glRotated(-90,1,0,0);
    
    glScaled(escala_missel,escala_missel,escala_missel);
@@ -143,7 +141,7 @@ void Desenha(){
    glColor3d(1, 0, 0);
    glTranslated(0, trans_ini_m, 0);
    glTranslated(-1.7,0 , 0);
-   glTranslated(ry, rx, 0);
+   glTranslated(rx, ry, 0);
    glRotated(-90,1,0,0);
    
    glScaled(escala_missel,escala_missel,escala_missel);
@@ -157,7 +155,7 @@ void Desenha(){
    glTranslated(0, trans_ini_m, 0);
    glTranslated(-1.7,0 , 0);
    glTranslated(-1.2,0 , 0);
-   glTranslated(ry, rx, 0);
+   glTranslated(rx, ry, 0);
    glRotated(-90,1,0,0);
    
    glScaled(escala_missel,escala_missel,escala_missel);
@@ -169,7 +167,7 @@ void Desenha(){
    glPushMatrix();
    glColor3d(1, 0, 0);
    glTranslated(0, trans_ini_m, 0);
-   glTranslated(ry, rx, 0);
+   glTranslated(rx, ry, 0);
    glTranslated(1.7,0 , 0);
    glRotated(-90,1,0,0);
    
@@ -184,8 +182,7 @@ void Desenha(){
    glTranslated(0, trans_ini_m, 0);
    glTranslated(1.7,0 , 0);
    glTranslated(1.2,0 , 0);
-   //printf("rx %d\n",rx);
-   glTranslated(ry, rx, 0);
+   glTranslated(rx, ry, 0);
    glRotated(-90,1,0,0);
    
    glScaled(escala_missel,escala_missel,escala_missel);
@@ -198,62 +195,14 @@ void Desenha(){
    glPushMatrix();
    glColor3d(0, 0, 1);
    glTranslated(0, -17.5, 14);
-   glTranslated(ry,0, 0);
-   //printf("rxa: %d\n",rx);
+   glTranslated(rx,0, 0);
    glRotated(170,1,0,0);
    glScaled(0.5,0.5,0.5);
    
    glCallList(aviao);
    glPopMatrix(); 
 
-   glPopMatrix(); 
-
-   /*glMatrixMode(GL_PROJECTION);
-   glLoadIdentity();
-   if(p==1){
-    glOrtho(-20.0, 20.0, -20.0, 20.0, 1, 60.0);
-   }else{
-    gluPerspective(300, 1, 0.5, 100);
-   //glFrustum(-100.0, 100.0, -20.0, 20.0, 10, 100.0);
-   }
-   glViewport(0, 250, 500, 250);
-
-    glMatrixMode(GL_MODELVIEW);
-   
-           
-
-    glBegin(GL_LINES);
-        glColor3d(1, 0, 0);//red x
-        glVertex3d(0,0,0);
-        glVertex3d(40,0,0); 
-    glEnd();
-    
-
-    
-    glBegin(GL_LINES);
-        glColor3d(0, 1, 0);//green y
-        glVertex3d(0,0,0);
-        glVertex3d(0,40,0);  
-    glEnd();
-    
-
-
-    glBegin(GL_LINES);
-        glColor3d(0, 0, 1);//blue Z
-        glVertex3d(0,0,0);
-        glVertex3d(0,0,40);  
-    glEnd();
-
-    glPushMatrix(); 
-   glRotated(rx,1,0,0);
-   glRotated(ry,0,1,0);
-   glRotated(rz,0,0,1);
-   glScaled(z,z,z);
-    
-   glColor3d(0, 0, 1);//blue Z
-   glCallList(macaco);
-   glPopMatrix();  */
-        
+   glPopMatrix();       
    
 }
 
@@ -268,22 +217,22 @@ void keyboard(unsigned char k,int x,int y){
     switch(k){
         case'A':
         case'a':
-            ry--;
+            rx--;
             glutPostRedisplay();
         break;
         case'S':
         case's':
-            rx--;
+            ry--;
             glutPostRedisplay();
         break;
         case'D':
         case'd':
-            ry++;
+            rx++;
             glutPostRedisplay();
         break;
         case'W':
         case'w':
-            rx++;
+            ry++;
             glutPostRedisplay();
         break;
         case'F':

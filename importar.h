@@ -1,6 +1,11 @@
 #ifndef _IMPORTAR_H_
   #define _IMPORTAR_H_
 
+//calcular normais
+typedef struct p3d{
+    double x, y, z;
+}Point3D;
+
 typedef struct{
     float x;
     float y;
@@ -52,6 +57,7 @@ extern void PegarCoordenadas3(FILE *file,char *mystring,tRegPoints *points);
 extern void PegarCoordIndex(FILE *file,char *mystring,tRegFaces *faces);
 extern void importarBlenderWrl(char *nomeArq,tRegFaces *faces,tRegPoints *points);
 extern void Imprimir(tRegFaces faces,tRegPoints points);
+extern void NormalTriangulo(Point3D p1, Point3D p2, Point3D p3, Point3D *n);
 
 
 #include "importar.c"
