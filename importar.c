@@ -341,71 +341,12 @@ void Imprimir(tRegFaces faces,tRegPoints points){
                     elementoRegPoints (points,tipo.point1+1,&tipo2);
                     glVertex3d(tipo2.x,tipo2.y,tipo2.z);
                    
-                    
-                    //normal ponto 2
-                    elementoRegPoints (points,tipo.point2+1,&tipo2);
-                    p1.x= tipo2.x;
-                    p1.y = tipo2.y;
-                    p1.z = tipo2.z;
-                    elementoRegPoints (points,tipo.point1+1,&tipo2);
-                    p2.x= tipo2.x;
-                    p2.y = tipo2.y;
-                    p2.z = tipo2.z;
-                    elementoRegPoints (points,tipo.point4+1,&tipo2);
-                    p3.x= tipo2.x;
-                    p3.y = tipo2.y;
-                    p3.z = tipo2.z;
-                        
-                    NormalTriangulo(p1, p2, p3, &n);
-                    
-                    glNormal3f(n.x, n.y, n.z);                    
-                    //*/
+                  
                     elementoRegPoints (points,tipo.point2+1,&tipo2);
                     glVertex3d(tipo2.x,tipo2.y,tipo2.z);
 
-
-
-                    //normal ponto 3
-                    elementoRegPoints (points,tipo.point3+1,&tipo2);
-                    p1.x= tipo2.x;
-                    p1.y = tipo2.y;
-                    p1.z = tipo2.z;
-                    elementoRegPoints (points,tipo.point1+1,&tipo2);
-                    p2.x= tipo2.x;
-                    p2.y = tipo2.y;
-                    p2.z = tipo2.z;
-                    elementoRegPoints (points,tipo.point4+1,&tipo2);
-                    p3.x= tipo2.x;
-                    p3.y = tipo2.y;
-                    p3.z = tipo2.z;
-
-                    NormalTriangulo(p1, p2, p3, &n);
-                    
-                    glNormal3f(n.x, n.y, n.z); 
-                    //*/
-
                     elementoRegPoints (points,tipo.point3+1,&tipo2);
                     glVertex3d(tipo2.x,tipo2.y,tipo2.z);
-
-
-                    //normal ponto 4
-                    elementoRegPoints (points,tipo.point3+1,&tipo2);
-                    p1.x= tipo2.x;
-                    p1.y = tipo2.y;
-                    p1.z = tipo2.z;
-                    elementoRegPoints (points,tipo.point1+1,&tipo2);
-                    p2.x= tipo2.x;
-                    p2.y = tipo2.y;
-                    p2.z = tipo2.z;
-                    elementoRegPoints (points,tipo.point4+1,&tipo2);
-                    p3.x= tipo2.x;
-                    p3.y = tipo2.y;
-                    p3.z = tipo2.z;
-
-                    NormalTriangulo(p1, p2, p3, &n);
-                    
-                    glNormal3f(n.x, n.y, n.z); 
-                   //*/
 
                     elementoRegPoints (points,tipo.point4+1,&tipo2);
                     glVertex3d(tipo2.x,tipo2.y,tipo2.z);

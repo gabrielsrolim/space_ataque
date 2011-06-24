@@ -1,14 +1,25 @@
 #ifndef _IMPORTAR_H_
   #define _IMPORTAR_H_
 
+//#include <time.h>
 
+/*Defines para Esfera*/
 #define LINHA_CIMA_ESFERA 18.5
 #define QTD_LINHA_ESFERA 13
 #define DISPONIVEL 1
 #define DESTRUIDO 0
 #define DIST_X_ESFERA 3
 #define DIST_Y_ESFERA 3
-#define QTD_ESFERAS  67
+#define QTD_ESFERAS  65
+
+#define FIM_JOGO 65
+
+#define VELOCIDADE_DELC_AVIAO 0.5
+#define VELOCIDADE_MISSEL 0.5
+
+/*Defines para os misseis*/
+#define M_ESFERA    1
+#define M_NAVE      0
 
 //calcular normais
 typedef struct p3d{
@@ -20,6 +31,13 @@ typedef struct esfera{
         double x , y ,z ;
         int status;
         }tEsfera;
+
+//tipo esfera: util para saber se houve colisao, alterando status.
+typedef struct missel{
+        double translacao_x;
+        double translacao_y;
+        }tPosicao;
+
 
 typedef struct{
     float x;
@@ -75,6 +93,7 @@ extern void Imprimir(tRegFaces faces,tRegPoints points);
 extern void NormalTriangulo(Point3D p1, Point3D p2, Point3D p3, Point3D *n);
 extern int InitEsferas(tEsfera *esfera);
 extern void Esferas();
+extern void misseis();
 
 
 #include "importar.c"
