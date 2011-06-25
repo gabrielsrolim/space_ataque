@@ -101,6 +101,7 @@ extern void Esferas();
 extern void misseis();
 extern void barravida();
 extern void chances();
+extern void RecomecaJogo();
 
 
 #include "importar.c"

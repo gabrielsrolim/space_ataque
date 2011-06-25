@@ -28,6 +28,7 @@ void Texto(){
      int i;
      glColor3f(0,0,0);     
      // Posição onde o textpontos será colocado
+     sprintf(textpontos,"Pontos: %d",pontos);
      glRasterPos3d(10, 0, 0);
       for(i=0; textpontos[i] != '\0'; ++i)
         glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24,textpontos[i]);
@@ -58,6 +59,18 @@ void Texto2(){
      
 }
 
+void RecomecaJogo(){
+    rx = 0.0;ry=0.0;rz=0.0;trans_missel_nave=0.0;trans_missel_esfera=0.0;vez=0.0; dispara=0; mov_esferas=0.0;
+    tamanho_vida = 5;pontos=0;
+    vidas=3;
+    for(i=0;i<QTD_ESFERAS;i++){
+        esfera[i].status = DISPONIVEL;
+    }
+}
+
+
+
+
 void ResetaJogo(int fim){
    rx = 0.0;ry=0.0;rz=0.0;trans_missel_nave=0.0;trans_missel_esfera=0.0;vez=0.0; dispara=0; mov_esferas=0.0;
    
@@ -68,7 +81,7 @@ void ResetaJogo(int fim){
       habilita_desenho=0;
       Desenha();
       vidas=3;
-    } 
+    }
     
     for(i=0;i<QTD_ESFERAS;i++){
         esfera[i].status = DISPONIVEL;
@@ -312,14 +325,10 @@ void keyboard(unsigned char k,int x,int y){
             ry+=VELOCIDADE_DELC_AVIAO;
             glutPostRedisplay();
         break;
-        case'F':
-        case'f':
-            rz-=VELOCIDADE_DELC_AVIAO;
-            glutPostRedisplay();
-        break;
         case'R':
         case'r':
-            rz+=VELOCIDADE_DELC_AVIAO;
+            RecomecaJogo();
+            
             glutPostRedisplay();
         break;
         case'E':
@@ -333,6 +342,14 @@ void keyboard(unsigned char k,int x,int y){
             
             glutPostRedisplay();
         break;
+        case 't':
+        case 'T': rz+=VELOCIDADE_DELC_AVIAO;
+                glutPostRedisplay();
+              break;
+        case 'g':
+        case 'G': rz-=VELOCIDADE_DELC_AVIAO;
+                glutPostRedisplay();
+              break;
         case 'm':
         case 'M': glEnable(GL_LIGHT0);
                 glutPostRedisplay();
