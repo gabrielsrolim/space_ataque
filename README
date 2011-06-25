@@ -5,6 +5,11 @@ data: 12/06/2011
 jogo de Atari: "Megamania"
 Projeto final do Curso de Computação Gráfica.
 
+Apenas Portavel para Linux.
+
+Necessario instalar no computador:
+- apt-get install glutg3 - para linux.
+
 Arquivos Necessarios:
 "missel.wrl"
 "nave_prota3.wrl"
