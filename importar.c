@@ -458,14 +458,7 @@ int InitEsferas(tEsfera *esfera){
    }
 
 
-   //Esferas devastadoras linha 5
-   for(i=0;i<QTD_LINHA_ESFERA;i++,num_esfera++){
-     esfera[num_esfera].x = LINHA_CIMA_ESFERA-((DIST_X_ESFERA*i)+1);
-     esfera[num_esfera].y =LINHA_CIMA_ESFERA-(DIST_Y_ESFERA*4);
-     esfera[num_esfera].z = 0;
-     esfera[num_esfera].status  = DISPONIVEL;
-
-   }
+   
 
 
 }

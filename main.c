@@ -8,18 +8,66 @@
 tPosicao missel_esfera,missel_nave,nave_espacial;
 tRegFaces faces;
 tRegPoints points;
-tEsfera esfera[QTD_ESFERAS+1];
+tEsfera esfera[QTD_ESFERAS];
 int width_window=800,height_window=650,num_esfera=0;
-int time=30,dispara=0,dispara_missel_esfera=0,missel_esfera_habilita=0,missel_selecionado;
+int time=30,dispara=0,dispara_missel_esfera=0,missel_esfera_habilita=0,missel_selecionado,vidas=3,habilita_desenho=1;
 double rx = 0.0,ry=0.0,rz=0.0,trans_missel_nave=0.0,trans_missel_esfera=0.0,vez=0.0;
 double z=0.5,cor_esferas=0.0,mov_esferas=0.0;
 double trans_ini_nave=-15,escala_missel=0.2;//padrão escala 0.2m translação inicial: -19(eixo y)
-char aviao,missel;
-int num=0; 
-int i;
+double tamanho_vida = 5;
 
-void ResetaJogo(){
-   rx = 0.0;ry=0.0;rz=0.0;trans_missel_nave=0.0;trans_missel_esfera=0.0;vez=0.0; dispara=0; mov_esferas=0.0; 
+char aviao,missel;
+int num=0,pontos=0; 
+int i;
+char textpontos[50],textRodada[50];
+
+
+// Desenha um texto na janela GLUT
+void Texto(){
+     int i;
+     glColor3f(0,0,0);     
+     // Posição onde o textpontos será colocado
+     glRasterPos3d(10, 0, 0);
+      for(i=0; textpontos[i] != '\0'; ++i)
+        glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24,textpontos[i]);
+}
+
+void Texto2(){
+     int i;
+     glColor3f(0,0,0);     
+     // Posição onde o textpontos será colocado
+     sprintf(textRodada,"%s","Game Over!");
+     glRasterPos3d(-4, 0, 0);
+      for(i=0; textRodada[i] != '\0'; ++i)
+        glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24,textRodada[i]);
+     sprintf(textRodada,"%s","Para Encerrar o jogo Aperte 'q'.");
+     glRasterPos3d(-4, -2, 0);
+      for(i=0; textRodada[i] != '\0'; ++i)
+        glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24,textRodada[i]);
+     sprintf(textRodada,"%s","Para Continuar o jogo Aperte 'e'.");
+     glRasterPos3d(-4, -4, 0);
+      for(i=0; textRodada[i] != '\0'; ++i)
+        glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24,textRodada[i]);
+    if(pontos >20){ 
+        sprintf(textRodada,"Parabens! Voce Fez %d pontos.",pontos);
+        glRasterPos3d(-4, -6, 0);
+        for(i=0; textRodada[i] != '\0'; ++i)
+            glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24,textRodada[i]);    
+    }
+     
+}
+
+void ResetaJogo(int fim){
+   rx = 0.0;ry=0.0;rz=0.0;trans_missel_nave=0.0;trans_missel_esfera=0.0;vez=0.0; dispara=0; mov_esferas=0.0;
+   
+    if(tamanho_vida<=-5){
+     tamanho_vida = 5;
+    }
+    if(fim){
+      habilita_desenho=0;
+      Desenha();
+      vidas=3;
+    } 
     
     for(i=0;i<QTD_ESFERAS;i++){
         esfera[i].status = DISPONIVEL;
@@ -28,7 +76,7 @@ void ResetaJogo(){
 
 
 void ResetaNave(){
-   rx = 0.0;ry=0.0;rz=0.0;vez=0.0; 
+   rx = 0.0;ry=0.0;vez=0.0; 
 }
 
 
@@ -98,8 +146,9 @@ void Desenha(){
    glLoadIdentity();
     glOrtho(-20.0, 20.0, -20.0, 20.0, 1, 60.0);
    
-   //glMatrixMode(GL_VIEWPORT);
-   //glViewport(0, 0, 500, 250);
+   glMatrixMode(GL_VIEWPORT);
+   glViewport(0, 50, width_window, height_window);
+   
    glMatrixMode(GL_MODELVIEW);
    glLoadIdentity();
    glClearColor(1.0, 1.0, 1.0, 1.0);
@@ -109,40 +158,38 @@ void Desenha(){
    glEnable(GL_DEPTH_TEST); 
     
    glTranslated(0, 0, -20);  
-
-   glPushMatrix(); 
-    glBegin(GL_LINES);
-        glColor3d(1, 0, 0);//red x
-        glVertex3d(0,0,0);
-        glVertex3d(40,0,0);
-        glVertex3d(0,0,0);
-        glVertex3d(-40,0,0); 
-    glEnd();
-    
-    //glLoadIdentity();
-    
-    glBegin(GL_LINES);
-        glColor3d(0, 1, 0);//green y
-        glVertex3d(0,0,0);
-        glVertex3d(0,40,0);
-        glVertex3d(0,0,0);
-        glVertex3d(0,-40,0);   
-    glEnd();
-    
-    //glLoadIdentity();
-
-    glBegin(GL_LINES);
-        glColor3d(0, 0, 1);//blue Z
-        glVertex3d(0,0,0);
-        glVertex3d(0,0,40);  
-    glEnd();
   
-  
-   Esferas();
-   misseis();
+   if(habilita_desenho){
+     Esferas();
+     misseis();
+     desenha_aviao();
+     
+   }else{
+    Texto2(); 
+   }
 
+   glMatrixMode(GL_PROJECTION);
+   glLoadIdentity();
+   glOrtho(-20.0, 20.0, -20.0, 20.0, 1, 60.0);
+   
+   glViewport(0, 0, width_window, 50);
+   
+   //glDisable(GL_DEPTH_TEST); 
+   glMatrixMode(GL_MODELVIEW);
+   
+   glDisable(GL_LIGHTING);
+   
+   barravida();
+   chances();
+   Texto();
+   
+   glEnable(GL_LIGHTING);
+   //glEnable(GL_DEPTH_TEST);
+   
+}
 
-    //Aviao
+void desenha_aviao(){
+     //Aviao
    glPushMatrix();
    glColor3d(0, 0, 1);
    glTranslated(0, -17.5, 5);
@@ -154,15 +201,81 @@ void Desenha(){
    glCallList(aviao);
    glPopMatrix(); 
 
-   glPopMatrix();       
+}
+
+void chances(){
    
+  //Vida 1
+  if (vidas!=0){
+   glPushMatrix();
+       glColor3d(0, 0, 1);
+       glTranslated(-15,0, 0);
+       glScaled(0.1,1,1);
+       glRotated(90,0,0,1);
+       glRotated(180,1,0,0);
+       glCallList(aviao);
+  glPopMatrix();
+ } 
+ if(vidas>1){
+ //Vida 2
+   glPushMatrix();
+       glColor3d(0, 0, 1);
+       glTranslated(-13.5,0, 0);
+       glScaled(0.1,1,1);
+       glRotated(90,0,0,1);
+       glRotated(180,1,0,0);  
+       glCallList(aviao);
+   glPopMatrix();
+ }
+ if(vidas==3){
+ //Vida 3
+   glPushMatrix();
+       glColor3d(0, 0, 1);
+       glTranslated(-11.9,0, 0);
+       glScaled(0.1,1,1);
+       glRotated(90,0,0,1);
+       glRotated(180,1,0,0);  
+       glCallList(aviao);
+   glPopMatrix(); 
+  }
+}
+
+
+void barravida(){
+
+   glBegin(GL_QUAD_STRIP);
+        glNormal3d(0.0, 0.0, 1.0);
+        glColor3d(0, 0, 1);//vida Azul
+	    glVertex3d(-5,5,1);
+	    glVertex3d(-5,0,1);
+	    glVertex3d(tamanho_vida,5,1);
+	    glVertex3d(tamanho_vida,0,1);
+   glEnd();
+   
+   glPopMatrix();
+
+   glPushMatrix();
+   
+
+   glBegin(GL_QUAD_STRIP);
+        glNormal3d(0.0, 0.0, 1.0);
+        glColor3d(1, 0, 0);//vida vermelha
+	    glVertex3d(-5,5,0);
+	    glVertex3d(-5,0,0);
+	    glVertex3d(5,5,0);
+	    glVertex3d(5,0,0);
+   glEnd();
+   
+   glPopMatrix();
+    
+
 }
 
 void display(void){
-      
-   Desenha();
+  
+  Desenha();
+   
   glutSwapBuffers();
-  //glFlush();
 }
 
 void keyboard(unsigned char k,int x,int y){
@@ -172,7 +285,11 @@ void keyboard(unsigned char k,int x,int y){
               break;
         case'A':
         case'a':
-            rx-=VELOCIDADE_DELC_AVIAO;
+            if(rx<=-20.0){
+              rx=-20;
+            }else{
+                rx-=VELOCIDADE_DELC_AVIAO;            
+            }
             glutPostRedisplay();
         break;
         case'S':
@@ -182,7 +299,11 @@ void keyboard(unsigned char k,int x,int y){
         break;
         case'D':
         case'd':
-            rx+=VELOCIDADE_DELC_AVIAO;
+            if(rx>=20.0){
+              rx=20;
+            }else{
+              rx+=VELOCIDADE_DELC_AVIAO;
+            } 
             glutPostRedisplay();
         break;
         case'W':
@@ -200,20 +321,15 @@ void keyboard(unsigned char k,int x,int y){
             rz+=VELOCIDADE_DELC_AVIAO;
             glutPostRedisplay();
         break;
-        case'Z':
-        case'z':
-            z+=0.1;
-            printf("z: %f\n",z);
-            glutPostRedisplay();
-        break;
-        case'X':
-        case'x':
-            
-            z-=0.1;
-            printf("z: %f\n",z);
-            if(z<=0.0){
-                z=0.1;            
+        case'E':
+        case'e':
+            if(!habilita_desenho){
+             sprintf(textpontos,"%s","Pontos: 0");
+             habilita_desenho = 1;
+             tamanho_vida = 5;
+             pontos = 0;  
             }
+            
             glutPostRedisplay();
         break;
         case 'm':
@@ -223,6 +339,10 @@ void keyboard(unsigned char k,int x,int y){
         case 'n':
         case 'N': glDisable(GL_LIGHT0);
                 glutPostRedisplay();
+              break;
+        case 'q':
+        case 'Q': 
+                exit(0);
               break;
         default:
             printf("%c\n",k);
@@ -288,19 +408,6 @@ void Esferas(){
      }
      glPopMatrix();
    }
-
-   //Esferas devastadoras linha 5
-   /*for(i=0;i<QTD_LINHA_ESFERA;i++,num_esfera++){
-     glPushMatrix();
-     cor_esferas+=0.001;
-     glColor3d(0, cor_esferas, cor_esferas);
-     if(esfera[num_esfera].status  == DISPONIVEL){
-        glTranslated(esfera[num_esfera].x,esfera[num_esfera].y,esfera[num_esfera].z);
-        glTranslated(0,mov_esferas,0);
-        glutSolidSphere(1,16,16);
-     }
-     glPopMatrix();
-   }//*/
  
     
 }
@@ -337,60 +444,6 @@ void misseis(){
        glCallList(missel);
        glPopMatrix();//*/
    }
-    
-   //missel left  1
-   /*glPushMatrix();
-   glColor3d(1, 0, 0);
-   glTranslated(0, trans_ini_nave, 0);
-   glTranslated(-1.7,0 , 0);
-   glTranslated(rx, ry, 0);
-   glRotated(-90,1,0,0);
-   
-   glScaled(escala_missel,escala_missel,escala_missel);
-
-   glCallList(missel);
-   glPopMatrix();
-
-   //missel left  2
-   glPushMatrix();
-   glColor3d(1, 0, 0);
-   glTranslated(0, trans_ini_nave, 0);
-   glTranslated(-1.7,0 , 0);
-   glTranslated(-1.2,0 , 0);
-   glTranslated(rx, ry, 0);
-   glRotated(-90,1,0,0);
-   
-   glScaled(escala_missel,escala_missel,escala_missel);
-
-   glCallList(missel);
-   glPopMatrix();
-
-   //missel right 1
-   glPushMatrix();
-   glColor3d(1, 0, 0);
-   glTranslated(0, trans_ini_nave, 0);
-   glTranslated(rx, ry, 0);
-   glTranslated(1.7,0 , 0);
-   glRotated(-90,1,0,0);
-   
-   glScaled(escala_missel,escala_missel,escala_missel);
-
-   glCallList(missel);
-   glPopMatrix();
-
-   //missel right  2
-   glPushMatrix();
-   glColor3d(1, 0, 0);
-   glTranslated(0, trans_ini_nave, 0);
-   glTranslated(1.7,0 , 0);
-   glTranslated(1.2,0 , 0);
-   glTranslated(rx, ry, 0);
-   glRotated(-90,1,0,0);
-   
-   glScaled(escala_missel,escala_missel,escala_missel);
-
-   glCallList(missel);
-   glPopMatrix();//*/
 
 
 }
@@ -398,7 +451,7 @@ void misseis(){
 void Inicializa(){
    
    //importarBlenderWrl("nave_pronta3.wrl",&faces,&points);
-   
+   sprintf(textpontos,"%s","Pontos: 0");
    aviao=glGenLists(1);
    glNewList(aviao,GL_COMPILE);
    importarBlenderWrl("nave_pronta3.wrl",&faces,&points);
@@ -424,11 +477,21 @@ void Inicializa(){
    
 }
 
+
+/*
+*
+* Colisão do Missel da Naves com as Esferas.
+*
+*
+*
+*/
 void ColisoesMisselNave(){
     int i,qtd=0;
     for(i=0;i<QTD_ESFERAS;i++){
         if((rx-esfera[i].x)<=1 && (rx-esfera[i].x)>=-1 && (trans_missel_nave+trans_ini_nave)==(esfera[i].y+mov_esferas)){               
            esfera[i].status = DESTRUIDO;
+           pontos+=10;
+           sprintf(textpontos,"Pontos: %d",pontos);
         }
     }
     for(i=0;i<QTD_ESFERAS;i++){
@@ -436,18 +499,42 @@ void ColisoesMisselNave(){
             qtd++;
 
     }
-    printf("qtd: %d\n",qtd);
-    if(qtd==65){
-        ResetaJogo();
+    if(qtd==QTD_ESFERAS){
+        ResetaJogo(0);
     }
     
 }
+
+
+/*
+*
+* Colisão do Missel das Esferas com a Nave.
+*
+*
+*
+*/
 void ColisoesMisselEsfera(){
-  int i,qtd=0;
-  //printf("trans: %f\n",(trans_missel_esfera+8)-(-17.5));
-  //printf("diffx: %f diffy: %f\n",(esfera[missel_selecionado].x-rx),(trans_missel_esfera+8)) ;
+ 
   if((esfera[missel_selecionado].x-rx)<=4 && (esfera[missel_selecionado].x-rx)>=-4 && (trans_missel_esfera+8)-(-17.5)>=-4 && (trans_missel_esfera+8)-(-17.5)<=4){               
-      //perde 1 vida
+          
+    
+    num= rand() % 100;    
+    if(num>=QTD_ESFERAS){
+        missel_selecionado = (num - 49); 
+    }else{
+        missel_selecionado = num;
+    }
+
+    vidas--;
+    //perde 1 vida
+    if(vidas==0){
+       ResetaJogo(1);
+    } 
+      
+      tamanho_vida-= PERDE_VIDA;
+      if(tamanho_vida<=-5.0){
+        ResetaJogo(1); 
+      }
       trans_missel_esfera=0.0;
       ResetaNave();
   }
@@ -455,46 +542,71 @@ void ColisoesMisselEsfera(){
 
 }
 
+/*
+*
+* Colisão das Esferas com a Nave.
+*
+*
+*
+*/
+
+void ColisoesEsferaNave(){
+   for(i=0;i<QTD_ESFERAS;i++)
+   if((esfera[i].y+mov_esferas)-(-17.5)<=5.0 && esfera[i].status==DISPONIVEL && (esfera[i].y+mov_esferas)-(-17.5)>=-5.0){
+     ResetaJogo(1);
+   }
+}
+
+
 void TimerFunction(int value){
     
-    
+ //tela Game over;
+    printf("Game over!!\n");
+    if(habilita_desenho){
+        ColisoesMisselNave();
+        ColisoesMisselEsfera();
+        ColisoesEsferaNave();
 
-    //srand(time(NULL));
-    num= rand() % 100;
-    vez+=1.0;
-    if(vez==20.0 && trans_missel_esfera==0){
-        dispara_missel_esfera = 1;
-        vez=0.0;
-        missel_esfera_habilita=1;
-        missel_selecionado = num;
-       // mov_esferas-=0.1;
+        num= rand() % 100;
+        vez+=1.0;
+        if(vez==20.0 && trans_missel_esfera==0){
+            dispara_missel_esfera = 1;
+            vez=0.0;
+            missel_esfera_habilita=1;
+            if(num>=QTD_ESFERAS){
+                missel_selecionado = (num - 49); 
+            }else{
+                missel_selecionado = num;
+            }
+        }
+        if(vez==20.0){
+            mov_esferas-=VELOCIDADE_DESC_ESFERA;
+        }
+
+        if(dispara_missel_esfera){
+             trans_missel_esfera-=VELOCIDADE_MISSEL;
+             if(trans_missel_esfera==-30){
+                dispara_missel_esfera = 0;
+                trans_missel_esfera=0;
+                missel_esfera_habilita=0;
+                vez=0.0;
+                tamanho_vida-= PERDE_VIDA;
+                if(tamanho_vida<=-5.0){
+                    ResetaJogo(1); 
+                } 
+             }
+        }
+
+        if(dispara){ 
+         trans_missel_nave+=VELOCIDADE_MISSEL;
+         if((trans_missel_nave+trans_ini_nave)==(esfera[0].y+mov_esferas+1) || trans_missel_nave==35){
+           dispara = 0;
+           trans_missel_nave=0;
+         }
+        }
         
+        glutPostRedisplay();
     }
-    if(vez==20.0){
-        mov_esferas-=0.5;
-    }
-
-    if(dispara_missel_esfera){
-     trans_missel_esfera-=VELOCIDADE_MISSEL;
-     if(trans_missel_esfera==-30){
-       dispara_missel_esfera = 0;
-       trans_missel_esfera=0;
-       missel_esfera_habilita=0;
-       vez=0.0; 
-     }
-    }
-
-    if(dispara){ 
-     trans_missel_nave+=VELOCIDADE_MISSEL;
-     //printf("%f\n",trans_missel);
-     if(trans_missel_nave==35){
-       dispara = 0;
-       trans_missel_nave=0;
-     }
-    }
-    ColisoesMisselNave();
-    ColisoesMisselEsfera();
-    glutPostRedisplay();
     
   glutTimerFunc(time, TimerFunction, 1); 
 

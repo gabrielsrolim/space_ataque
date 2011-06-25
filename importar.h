@@ -10,12 +10,15 @@
 #define DESTRUIDO 0
 #define DIST_X_ESFERA 3
 #define DIST_Y_ESFERA 3
-#define QTD_ESFERAS  65
+#define QTD_ESFERAS  52
 
 #define FIM_JOGO 65
 
 #define VELOCIDADE_DELC_AVIAO 0.5
 #define VELOCIDADE_MISSEL 0.5
+#define VELOCIDADE_DESC_ESFERA 1.0
+
+#define PERDE_VIDA 0.3
 
 /*Defines para os misseis*/
 #define M_ESFERA    1
@@ -92,8 +95,12 @@ extern void importarBlenderWrl(char *nomeArq,tRegFaces *faces,tRegPoints *points
 extern void Imprimir(tRegFaces faces,tRegPoints points);
 extern void NormalTriangulo(Point3D p1, Point3D p2, Point3D p3, Point3D *n);
 extern int InitEsferas(tEsfera *esfera);
+extern void Desenha();
+extern void desenha_aviao();
 extern void Esferas();
 extern void misseis();
+extern void barravida();
+extern void chances();
 
 
 #include "importar.c"
