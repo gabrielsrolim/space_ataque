@@ -22,6 +22,7 @@ int i;
 char textpontos[50],textRodada[50];
 
 
+
 // Desenha um texto na janela GLUT
 void Texto(){
      int i;
@@ -560,8 +561,6 @@ void ColisoesEsferaNave(){
 
 void TimerFunction(int value){
     
- //tela Game over;
-    printf("Game over!!\n");
     if(habilita_desenho){
         ColisoesMisselNave();
         ColisoesMisselEsfera();
