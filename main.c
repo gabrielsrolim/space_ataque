@@ -97,7 +97,7 @@ void ResetaNave(){
 void iluminacao(void){
     //GLfloat luzAmbiente[4]={0.2,0.2,0.2,1.0};
     GLfloat luzAmbiente[4]={1,1,1,1.0}; 
-	GLfloat luzDifusa[4]={1,1,1,1.0};	   // "cor" 
+	GLfloat luzDifusa[4]={0.8,0.8,0.8,1.0};	   // "cor" 
 	GLfloat luzEspecular[4]={1.0, 1.0, 1.0, 1.0};// "brilho" 
 	GLfloat posicaoLuz[4]={18.0, 0.0, 20, 1};
     GLfloat posicaoLuz2[4]={-18.0, 0.0, 20, 1};
@@ -165,7 +165,7 @@ void Desenha(){
    
    glMatrixMode(GL_MODELVIEW);
    glLoadIdentity();
-   glClearColor(1.0, 1.0, 1.0, 1.0);
+   glClearColor(0.5, 0.5, 0.5, 0.5);
    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
    
       
@@ -196,6 +196,15 @@ void Desenha(){
    barravida();
    chances();
    Texto();
+   
+   glBegin(GL_QUAD_STRIP);
+     //glNormal3d(0.0, 0.0, 1.0);
+     glColor3d(0.5, 0.4, 0.3);//vida vermelha
+     glVertex3d(-20,20,-10);
+     glVertex3d(-20,-20,-10);
+     glVertex3d(20,20,-10);
+     glVertex3d(20,-20,-10);
+     glEnd();
    
    glEnable(GL_LIGHTING);
    //glEnable(GL_DEPTH_TEST);
