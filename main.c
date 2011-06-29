@@ -97,10 +97,10 @@ void ResetaNave(){
 void iluminacao(void){
     //GLfloat luzAmbiente[4]={0.2,0.2,0.2,1.0};
     GLfloat luzAmbiente[4]={1,1,1,1.0}; 
-	GLfloat luzDifusa[4]={0.8,0.8,0.8,1.0};	   // "cor" 
-	GLfloat luzEspecular[4]={1.0, 1.0, 1.0, 1.0};// "brilho" 
-	GLfloat posicaoLuz[4]={18.0, 0.0, 20, 1};
-    GLfloat posicaoLuz2[4]={-18.0, 0.0, 20, 1};
+	GLfloat luzDifusa[4]={1,1,1,1};	   // "cor" 
+	GLfloat luzEspecular[4]={1, 1, 1, 0.4};// "brilho" 
+	GLfloat posicaoLuz[4]={20.0, 0.0, 20, 1};
+    GLfloat posicaoLuz2[4]={-20.0, 0.0, 20, 1};
 
 	// Capacidade de brilho do material
 	GLfloat especularidade[4]={1.0,1.0,1.0,1.0}; 
@@ -214,7 +214,7 @@ void Desenha(){
 void desenha_aviao(){
      //Aviao
    glPushMatrix();
-   glColor3d(0, 0, 1);
+   glColor3d(0, 0.0,0.000001234734 );
    glTranslated(0, -17.5, 5);
    glTranslated(rx,0, 0);
    glRotated(180,0,0,1);
