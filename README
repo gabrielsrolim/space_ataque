@@ -8,11 +8,14 @@ Projeto final do Curso de Computação Gráfica.
 Apenas Portavel para Linux.
 
 Necessario instalar no computador:
-- apt-get install glutg3 - para linux.
+- apt-get install glutg3 - para linux(Ubunto).
+- ter o glut32.dll no mesmo local do execultavel.(Windows)
 
 Arquivos Necessarios:
 "missel.wrl"
 "nave_prota3.wrl"
+
+Arquivo make.sh (Compila o jogo no linux.)
 
 Comandos:
 a - move a nave para  a esquerda
