@@ -11,7 +11,7 @@ tRegPoints points;
 tEsfera esfera[QTD_ESFERAS];
 int width_window=800,height_window=650,num_esfera=0;
 int time=30,dispara=0,dispara_missel_esfera=0,missel_esfera_habilita=0,missel_selecionado,vidas=3,habilita_desenho=1;
-double rx = 0.0,ry=0.0,rz=0.0,trans_missel_nave=0.0,trans_missel_esfera=0.0,vez=0.0;
+double rx = 0.0,ry=0.0,rz=0.0,trans_missel_nave=0.0,trans_missel_esfera=0.0,vez=0.0,vira_nave=0;
 double z=0.5,cor_esferas=0.0,mov_esferas=0.0;
 double trans_ini_nave=-15,escala_missel=0.2;//padrão escala 0.2m translação inicial: -19(eixo y)
 double tamanho_vida = 5;
@@ -219,6 +219,7 @@ void desenha_aviao(){
    glTranslated(rx,0, 0);
    glRotated(180,0,0,1);
    glRotated(8,1,0,0);
+   glRotated(vira_nave,0,1,0);
    glScaled(0.5,0.5,0.5);
    
    glCallList(aviao);
@@ -308,12 +309,18 @@ void keyboard(unsigned char k,int x,int y){
               break;
         case'A':
         case'a':
-            if(rx<=-20.0){
-              rx=-20;
+            if(vira_nave<=10){
+                vira_nave=14;            
             }else{
+             if(rx<=-20.0){
+               rx=-20;
+             }else{
                 rx-=VELOCIDADE_DELC_AVIAO;            
+             }
             }
+            
             glutPostRedisplay();
+            //vira_nave=0;
         break;
         case'S':
         case's':
@@ -322,12 +329,18 @@ void keyboard(unsigned char k,int x,int y){
         break;
         case'D':
         case'd':
-            if(rx>=20.0){
-              rx=20;
+            if(vira_nave>=-10){
+                vira_nave=-14;            
             }else{
-              rx+=VELOCIDADE_DELC_AVIAO;
-            } 
+              if(rx>=20.0){
+                rx=20;
+              }else{
+                rx+=VELOCIDADE_DELC_AVIAO;
+              }
+            }
+            //vira_nave=-20; 
             glutPostRedisplay();
+            //vira_nave=0;
         break;
         case'W':
         case'w':
@@ -586,7 +599,7 @@ void ColisoesEsferaNave(){
 
 
 void TimerFunction(int value){
-    
+    //vira_nave=0;
     if(habilita_desenho){
         ColisoesMisselNave();
         ColisoesMisselEsfera();
