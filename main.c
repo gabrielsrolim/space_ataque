@@ -1,4 +1,9 @@
+
+#ifdef __WIN32__
+#include <GL\glut.h>
+#else
 #include <GL/glut.h>
+#endif
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
