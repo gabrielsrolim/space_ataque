@@ -301,7 +301,7 @@ void barravida(){
 }
 
 void display(void){
-  
+  printf("funcao desenha\n");
   Desenha();
    
   glutSwapBuffers();
@@ -496,7 +496,9 @@ void misseis(){
 void Inicializa(){
    
    //importarBlenderWrl("nave_pronta3.wrl",&faces,&points);
+   printf("inicializando\n");
    sprintf(textpontos,"%s","Pontos: 0");
+   printf("gerando lista do aviao\n");
    aviao=glGenLists(1);
    glNewList(aviao,GL_COMPILE);
    importarBlenderWrl("nave_pronta3.wrl",&faces,&points);
@@ -506,7 +508,7 @@ void Inicializa(){
    DestroiRegPoints(&points);
 
    //importarBlenderWrl("missel.wrl",&faces,&points);
-   
+   printf("gerando lista de misseis\n");
    missel=glGenLists(2);
    glNewList(missel,GL_COMPILE);
     importarBlenderWrl("missel.wrl",&faces,&points);
@@ -514,8 +516,10 @@ void Inicializa(){
 
    DestroiRegFaces(&faces);
    DestroiRegPoints(&points);
-
+   
+   printf("define iluminacao\n");
    iluminacao();
+   printf("inicializa esferas\n");
    InitEsferas(esfera);
  
    

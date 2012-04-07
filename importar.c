@@ -220,7 +220,7 @@ void PegarCoordenadas3(FILE *file,char *mystring,tRegPoints *points){
         break;
       }    
       d=sscanf(aux,"%f %f %f",&tipo.x,&tipo.y,&tipo.z);
-      //printf("pontos: %f %f %f\n",tipo.x,tipo.y,tipo.z);
+      printf("pontos: %f %f %f\n",tipo.x,tipo.y,tipo.z);
       InsereRegPoints(points,tipo);  
       
     }while(1);
@@ -243,7 +243,7 @@ void PegarCoordIndex(FILE *file,char *mystring,tRegFaces *faces){
         break;
       }    
       d=sscanf(aux,"%d %d %d %d %d",&tipo.point1,&tipo.point2,&tipo.point3,&tipo.point4,&tipo.point5);
-     // printf("faces: %d %d %d %d %d\n",tipo.point1,tipo.point2,tipo.point3,tipo.point4,tipo.point5);
+      printf("faces: %d %d %d %d %d\n",tipo.point1,tipo.point2,tipo.point3,tipo.point4,tipo.point5);
       InsereRegFaces(faces,tipo,(d-1)); 
       
     }while(1);
@@ -275,23 +275,29 @@ void importarBlenderWrl(char *nomeArq,tRegFaces *faces,tRegPoints *points){
     for(;!feof(file);){
        
         fgets(mystring , 10000 , file);
-        mystring[strlen(mystring)-1]='\0';
+        if((strlen(mystring)-1)<=0){
+	printf("Cotinue\n");
+	continue;
+	}
+	mystring[strlen(mystring)-1]='\0';
         aux=mystring;
-        //printf("%s\n",mystring);   
+        printf("Linha: %s\n",mystring);   
         while(*aux=='\t' || *aux==' '){
             aux++;
         }
         if(memcmp(aux,"Coordinate",10)==0){
             //numero=atoi(aux+10);    
         }
-        //printf("point: %s\n",aux);
+     
         if(memcmp(aux,"point",5)==0){
-           // if(numero == 3)
+            //if(numero == 3)
+	    printf("point: %s\n",aux);
             PegarCoordenadas3(file,mystring,points);
             
         }
-        //printf("face: %s\n",aux);
+       
         if(memcmp(aux,"coordIndex",10)==0){
+            printf("face: %s\n",aux);
             PegarCoordIndex(file,mystring,faces);
         }
        
@@ -309,7 +315,7 @@ void Imprimir(tRegFaces faces,tRegPoints points){
    Point3D n;
 
     TamanhoRegFaces(faces,&qtd_f);
-    //printf("tamanho faces: %d\n",qtd);
+    printf("tamanho faces: %d\n",qtd);
     
     //glBegin(GL_LINES);
         for(i=0;i<qtd_f;i++){
@@ -318,7 +324,7 @@ void Imprimir(tRegFaces faces,tRegPoints points){
             switch (qtd){
         
             case 4:
-               // printf("errado\n");
+                printf("errado 4\n");
                 glBegin(GL_QUADS);
                     //normal ponto 1
                     elementoRegPoints (points,tipo.point1+1,&tipo2);
@@ -355,7 +361,7 @@ void Imprimir(tRegFaces faces,tRegPoints points){
                  
                 break;
             case 3:
-                printf("certo\n");
+                printf("certo 3\n");
                 elementoRegPoints (points,tipo.point1+1,&tipo2);
                 Point3D p1={tipo2.x,tipo2.y,tipo2.z};
                 elementoRegPoints (points,tipo.point2+1,&tipo2);
@@ -423,7 +429,7 @@ void NormalTriangulo(Point3D p1, Point3D p2, Point3D p3, Point3D *n){
 int InitEsferas(tEsfera *esfera){
     int i=0,num_esfera=0;
     
-    
+   printf("inicializando linha 1\n"); 
     //Esferas devastadoras linha 1
    for(i=0;i<QTD_LINHA_ESFERA;i++,num_esfera++){
      esfera[num_esfera].x = LINHA_CIMA_ESFERA-((DIST_X_ESFERA*i)+1);
@@ -431,7 +437,7 @@ int InitEsferas(tEsfera *esfera){
      esfera[num_esfera].z = 0;
      esfera[num_esfera].status  = DISPONIVEL;
    }
-   
+   printf("inicializando linha 2\n");
    //Esferas devastadoras linha 2
    for(i=0;i<QTD_LINHA_ESFERA;i++,num_esfera++){
      esfera[num_esfera].x = LINHA_CIMA_ESFERA-((DIST_X_ESFERA*i)+1);
@@ -440,7 +446,7 @@ int InitEsferas(tEsfera *esfera){
      esfera[num_esfera].status  = DISPONIVEL;
 
    }
-
+   printf("inicializando linha 3\n");
     //Esferas devastadoras linha 3
    for(i=0;i<QTD_LINHA_ESFERA;i++,num_esfera++){
      esfera[num_esfera].x = LINHA_CIMA_ESFERA-((DIST_X_ESFERA*i)+1);
@@ -448,7 +454,7 @@ int InitEsferas(tEsfera *esfera){
      esfera[num_esfera].z = 0;
      esfera[num_esfera].status  = DISPONIVEL;
    }
-   
+   printf("inicializando linha 4\n");
    //Esferas devastadoras linha 4
    for(i=0;i<QTD_LINHA_ESFERA;i++,num_esfera++){
      esfera[num_esfera].x = LINHA_CIMA_ESFERA-((DIST_X_ESFERA*i)+1);
